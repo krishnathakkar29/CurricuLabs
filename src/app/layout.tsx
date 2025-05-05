@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Lexend_Deca } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
+import QueryProviderWrapper from "@/components/wrappers/query-provider";
 
 const lexend = Lexend_Deca({
   subsets: ["latin"],
@@ -20,9 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${lexend.className} min-h-screen pt-16 antialiased`}>
-        <Navbar />
-        {children}
-        <Toaster richColors position="bottom-right" />
+        <QueryProviderWrapper>
+          <Navbar />
+          {children}
+          <Toaster richColors position="bottom-right" />
+        </QueryProviderWrapper>
       </body>
     </html>
   );

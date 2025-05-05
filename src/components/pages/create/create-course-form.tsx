@@ -16,8 +16,26 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Plus, Trash } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
+type Input = z.infer<typeof createChaptersSchema>;
 function CreateCourseForm() {
+  const router = useRouter();
+
+  const { mutate: createChapters, isPending } = useMutation({
+    mutationFn: async ({ title, units }: Input) => {
+      const response = await axios.post("/api/course/createChapters", {
+        title,
+        units,
+      });
+      console.log("response-DATTAAAAAA", response.data);
+      return response.data;
+    },
+  });
+
   const form = useForm<z.infer<typeof createChaptersSchema>>({
     resolver: zodResolver(createChaptersSchema),
     defaultValues: {
@@ -26,8 +44,21 @@ function CreateCourseForm() {
     },
   });
 
-  async function onSubmit(data: z.infer<typeof createChaptersSchema>) {
-    console.log(data);
+  function onSubmit(data: Input) {
+    if (data.units.some((unit) => unit === "")) {
+      toast.error("Please fill in all units");
+      return;
+    }
+    createChapters(data, {
+      onSuccess: ({ course_id }) => {
+        toast.success("Course created successfully!");
+        router.push(`/create/${course_id}`);
+      },
+      onError: (error) => {
+        console.error(error);
+        toast.error("Failed to create course. Please try again.");
+      },
+    });
   }
 
   form.watch();
@@ -120,7 +151,12 @@ function CreateCourseForm() {
             </div>
             <Separator className="flex-[1]" />
           </div>
-          <Button type="submit" className="w-full mt-6" size="lg">
+          <Button
+            type="submit"
+            className="w-full mt-6"
+            size="lg"
+            disabled={isPending}
+          >
             Lets Go!
           </Button>
         </form>

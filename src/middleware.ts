@@ -2,7 +2,7 @@ import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 import { toast } from "sonner";
 
-const publicPaths = ["/sign-in", "/sign-up"];
+const publicPaths = ["/sign-in", "/sign-up", "/api/course/createChapters"];
 const authPaths = ["/auth/signin"];
 
 export async function middleware(req: NextRequest) {
