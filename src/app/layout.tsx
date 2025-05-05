@@ -4,6 +4,7 @@ import { Lexend_Deca } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import QueryProviderWrapper from "@/components/wrappers/query-provider";
+import { SessionProvider } from "next-auth/react";
 
 const lexend = Lexend_Deca({
   subsets: ["latin"],
@@ -22,8 +23,10 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={`${lexend.className} min-h-screen pt-16 antialiased`}>
         <QueryProviderWrapper>
-          <Navbar />
-          {children}
+          <SessionProvider>
+            <Navbar />
+            {children}
+          </SessionProvider>
           <Toaster richColors position="bottom-right" />
         </QueryProviderWrapper>
       </body>

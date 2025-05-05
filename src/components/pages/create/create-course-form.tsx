@@ -20,9 +20,11 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import SubscriptionAction from "@/components/custom/subscription-action";
 
 type Input = z.infer<typeof createChaptersSchema>;
-function CreateCourseForm() {
+
+const CreateCourseForm = ({ isPro }: { isPro: boolean }) => {
   const router = useRouter();
 
   const { mutate: createChapters, isPending } = useMutation({
@@ -161,8 +163,9 @@ function CreateCourseForm() {
           </Button>
         </form>
       </Form>
+      {!isPro && <SubscriptionAction />}
     </div>
   );
-}
+};
 
 export default CreateCourseForm;
