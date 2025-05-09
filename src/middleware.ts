@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { toast } from "sonner";
 
 const publicPaths = ["/sign-in", "/sign-up", "/api/course/createChapters"];
-const authPaths = ["/auth/signin"];
+const authPaths = ["/sign-up", "/sign-in"];
 
 export async function middleware(req: NextRequest) {
   const sessionToken = req.cookies.get("authjs.session-token")?.value;

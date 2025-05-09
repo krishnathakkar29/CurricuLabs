@@ -21,10 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={`${lexend.className} min-h-screen pt-16 antialiased`}>
+      <body className={`${lexend.className} min-h-screen  antialiased`}>
         <QueryProviderWrapper>
           <SessionProvider>
-            <Navbar />
+            {/* <Navbar /> */}
             {children}
           </SessionProvider>
           <Toaster richColors position="bottom-right" />
