@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const { email, password } = await request.json();
+    const { name, email, password } = await request.json();
 
     if (!email || !password) {
       return NextResponse.json(
@@ -29,6 +29,7 @@ export async function POST(request: Request) {
     const hashPassword = await bcrypt.hash(password, 12);
     const newUser = await prisma.user.create({
       data: {
+        name,
         email,
         passewordHash: hashPassword,
       },

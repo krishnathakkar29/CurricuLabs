@@ -6,6 +6,7 @@ import { toast } from "sonner";
 
 function page() {
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
   const router = useRouter();
@@ -19,7 +20,7 @@ function page() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ name, email, password }),
       });
 
       const data = await res.json();
@@ -42,6 +43,19 @@ function page() {
     <div className="max-w-md mx-auto">
       <h1 className="text-2xl font-bold mb-4">Register</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label htmlFor="name" className="block mb-1 ">
+            Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            className="w-full px-3 py-2 border rounded text-black"
+          />
+        </div>
         <div>
           <label htmlFor="email" className="block mb-1">
             Email
