@@ -15,6 +15,7 @@ jobs:
 
              - name: Run Script
                run : |
+                sudo su
                 cd /root/CurricuLabs
                 git pull origin main
                 pnpm install
