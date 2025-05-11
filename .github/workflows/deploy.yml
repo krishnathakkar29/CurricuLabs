@@ -19,4 +19,5 @@ jobs:
             pnpm install
             pnpm run build
             pnpm run start
+            curl localhost:3000
             echo 'deployed successfully'
