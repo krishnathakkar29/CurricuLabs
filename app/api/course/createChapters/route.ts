@@ -16,6 +16,16 @@ export async function POST(req: Request, res: Response) {
       return new NextResponse("unauthorised", { status: 401 });
     }
 
+    const user = await prisma.user.findUnique({
+      where: {
+        id: session.user.id,
+      }
+    })
+
+    if (user?.credits! <= 0){
+      return new NextResponse("Insufficient credits , cannot create course", { status: 400 });
+    }
+
     const body = await req.json();
     const { title, units } = createChaptersSchema.parse(body);
     console.log("units", units);
@@ -80,16 +90,16 @@ export async function POST(req: Request, res: Response) {
         }),
       });
     }
-    // await prisma.user.update({
-    //   where: {
-    //     id: session.user.id,
-    //   },
-    //   data: {
-    //     credits: {
-    //       decrement: 1,
-    //     },
-    //   },
-    // });
+    await prisma.user.update({
+      where: {
+        id: session.user.id,
+      },
+      data: {
+        credits: {
+          decrement: 1,
+        },
+      },
+    });
 
     return NextResponse.json({ course_id: course.id });
   } catch (error) {

@@ -24,7 +24,7 @@ model User {
   sessions      Session[]
   accounts      Account[]
 
-  credits Int?
+  credits Int @default(2)
 
   @@unique([email])
   @@map("user")
@@ -78,7 +78,6 @@ model Verification {
   @@map("verification")
 }
 
-
 model Course {
   id    String @id @default(cuid())
   name  String
@@ -131,4 +130,3 @@ model UserSubscription {
   stripePriceId          String?   @map(name: "stripe_price_id")
   stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
 }
-

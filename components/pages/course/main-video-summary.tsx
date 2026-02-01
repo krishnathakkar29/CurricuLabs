@@ -1,4 +1,7 @@
 import { Chapter, Unit } from "@/lib/generated/prisma/client";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { FileText, Play } from "lucide-react";
 
 type MainVideoSummaryProps = {
   chapter: Chapter;
@@ -14,20 +17,42 @@ function MainVideoSummary({
   unitIndex,
 }: MainVideoSummaryProps) {
   return (
-    <div className="flex-[2] mt-16">
-      <h4 className="text-sm uppercase text-secondary-foreground/60">
-        Unit {unitIndex + 1} &bull; Chapter {chapterIndex + 1}
-      </h4>
-      <h1 className="text-4xl font-bold">{chapter.name}</h1>
-      <iframe
-        title="chapter video"
-        className="w-full mt-4 aspeect-video max-h-[28rem]"
-        src={`https://www.youtube.com/embed/${chapter.videoId}`}
-        allowFullScreen
-      />
-      <div className="mt-4">
-        <h3 className="text-3xl font-semibold">Summary</h3>
-        <p className="mt-2 text-secondary-foreground/80">{chapter.summary}</p>
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <div className="flex items-center gap-2">
+          <Badge variant="secondary" className="font-mono text-[10px] uppercase tracking-wider">
+            Unit {unitIndex + 1}
+          </Badge>
+          <Badge variant="outline" className="font-mono text-[10px] uppercase tracking-wider">
+            Chapter {chapterIndex + 1}
+          </Badge>
+        </div>
+        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground">
+          {chapter.name}
+        </h1>
+      </div>
+
+      <Card className="overflow-hidden border-border bg-muted/30 shadow-2xl shadow-primary/5">
+        <div className="aspect-video relative group">
+          <iframe
+            title="chapter video"
+            className="absolute inset-0 w-full h-full"
+            src={`https://www.youtube.com/embed/${chapter.videoId}`}
+            allowFullScreen
+          />
+        </div>
+      </Card>
+
+      <div className="space-y-4">
+        <div className="flex items-center gap-2 border-b border-border pb-2">
+          <FileText className="w-5 h-5 text-primary" />
+          <h3 className="text-xl font-bold">Chapter Summary</h3>
+        </div>
+        <div className="prose prose-zinc dark:prose-invert max-w-none">
+          <p className="text-lg leading-relaxed text-muted-foreground bg-accent/30 p-6 rounded-2xl border border-border/50">
+            {chapter.summary}
+          </p>
+        </div>
       </div>
     </div>
   );

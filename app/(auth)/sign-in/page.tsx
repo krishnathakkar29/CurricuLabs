@@ -1,6 +1,7 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
+import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -9,9 +10,11 @@ import { toast } from "sonner";
 function page() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
     const result = await authClient.signIn.email(
       {
         email: email,
@@ -26,11 +29,13 @@ function page() {
       toast.success("Login successful!");
       router.push("/");
     }
+
+    setIsLoading(false);
   };
 
   return (
     <div className="max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Login CD TESTIN</h1>
+      <h1 className="text-2xl font-bold mb-4">Login</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="email" className="block mb-1">
@@ -61,8 +66,9 @@ function page() {
         <button
           type="submit"
           className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+          disabled={isLoading}
         >
-          Login
+          {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Login"}
         </button>
         <p className="text-center mt-4">
           Don&apos;t have an account?{" "}

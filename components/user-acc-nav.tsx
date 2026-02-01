@@ -11,12 +11,14 @@ import {
 } from "./ui/dropdown-menu";
 import UserAvatar from "./user-avatar";
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 type Props = {
   user: User;
 };
 
 const UserAccountNav = ({ user }: Props) => {
+  const router = useRouter();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -36,8 +38,9 @@ const UserAccountNav = ({ user }: Props) => {
 
         <DropdownMenuSeparator />
         <DropdownMenuItem
-          onSelect={() => {
-              authClient.signOut();
+          onSelect={async () => {
+              await authClient.signOut()
+              router.push("/sign-in")
           }}
           className="text-red-600 cursor-pointer"
         >

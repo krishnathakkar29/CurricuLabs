@@ -21,6 +21,7 @@ const UserAvatar = ({ user }: Props) => {
       ) : (
         <AvatarFallback>
           <span className="sr-only">{user?.name}</span>
+          {user?.name ? user.name[0].toUpperCase() : "U"}
         </AvatarFallback>
       )}
     </Avatar>

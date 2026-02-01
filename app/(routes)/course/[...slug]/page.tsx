@@ -47,62 +47,54 @@ const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const prevChapter = unit.chapters[chapterIndex - 1];
   //   console.log("course unitss \n ", JSON.stringify(course.units[0]));
   return (
-    <div>
+    <div className="min-h-screen bg-background">
       <CourseSidebar course={course} currentChapterId={chapter.id} />
-      <div>
-        <div className="ml-[400px] px-8">
-          <div className="flex">
-            <MainVideoSummary
-              chapter={chapter}
-              chapterIndex={chapterIndex}
-              unit={unit}
-              unitIndex={unitIndex}
-            />
-            <QuizCards chapter={chapter} />
-          </div>
-          <div className="flex-[1] h-[1px] mt-4 text-gray-500 bg-gray-500" />
+      <main className="lg:pl-[400px] transition-all duration-300">
+        <div className="w-full px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex flex-col xl:flex-row gap-8">
+            <div className="flex-1 space-y-8">
+              <MainVideoSummary
+                chapter={chapter}
+                chapterIndex={chapterIndex}
+                unit={unit}
+                unitIndex={unitIndex}
+              />
+              
+              <div className="flex items-center justify-between pt-8 border-t border-border">
+                {prevChapter ? (
+                  <Link
+                    href={`/course/${course.id}/${unitIndex}/${chapterIndex - 1}`}
+                    className="group flex items-center gap-3 p-4 rounded-xl border border-border hover:bg-accent transition-all"
+                  >
+                    <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                    <div className="flex flex-col">
+                      <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Previous</span>
+                      <span className="text-sm font-bold line-clamp-1">{prevChapter.name}</span>
+                    </div>
+                  </Link>
+                ) : <div />}
 
-          <div className="flex px-8 pb-8">
-            {prevChapter && (
-              <Link
-                href={`/course/${course.id}/${unitIndex}/${chapterIndex - 1}`}
-                className="flex mt-4 mr-auto w-fit"
-              >
-                <div className="flex items-center">
-                  <ChevronLeft className="w-6 h-6 mr-1" />
-                  <div className="flex flex-col items-start">
-                    <span className="text-sm text-secondary-foreground/60">
-                      Previous
-                    </span>
-                    <span className="text-xl font-bold">
-                      {prevChapter.name}
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            )}
-
-            {nextChapter && (
-              <Link
-                href={`/course/${course.id}/${unitIndex}/${chapterIndex + 1}`}
-                className="flex mt-4 ml-auto w-fit"
-              >
-                <div className="flex items-center">
-                  <div className="flex flex-col items-start">
-                    <span className="text-sm text-secondary-foreground/60">
-                      Next
-                    </span>
-                    <span className="text-xl font-bold">
-                      {nextChapter.name}
-                    </span>
-                  </div>
-                  <ChevronRight className="w-6 h-6 ml-1" />
-                </div>
-              </Link>
-            )}
+                {nextChapter && (
+                  <Link
+                    href={`/course/${course.id}/${unitIndex}/${chapterIndex + 1}`}
+                    className="group flex items-center gap-3 p-4 rounded-xl border border-border hover:bg-accent transition-all text-right"
+                  >
+                    <div className="flex flex-col items-end">
+                      <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Next</span>
+                      <span className="text-sm font-bold line-clamp-1">{nextChapter.name}</span>
+                    </div>
+                    <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                )}
+              </div>
+            </div>
+            
+            <aside className="xl:w-[450px] shrink-0">
+              <QuizCards chapter={chapter} />
+            </aside>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 };

@@ -35,7 +35,7 @@ const CreateCourseForm = ({ isPro }: { isPro: boolean }) => {
       });
       console.log("response-DATTAAAAAA", response.data);
       return response.data;
-    },
+    }
   });
 
   const form = useForm<z.infer<typeof createChaptersSchema>>({
@@ -58,7 +58,11 @@ const CreateCourseForm = ({ isPro }: { isPro: boolean }) => {
       },
       onError: (error) => {
         console.error(error);
-        toast.error("Failed to create course. Please try again.");
+        if (axios.isAxiosError(error) && error.response) {
+          toast.error(error.response.data || "Failed to create course. Please try again.");
+          return
+        } 
+        toast.error(error instanceof Error ? error.message : "Failed to create course. Please try again.");
       },
     });
   }
