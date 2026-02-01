@@ -3,12 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "./lib/auth";
 
 const PROTECTED_PATHS = [
-  "/dashboard(.*)",
-  "/dashboard",
-  "/dashboard/reviews",
-  "/dashboard/repositories",
-  "/dashboard/settings",
-  "/"
+  "/",
+  "/gallery",
+  "/create",
+  "/settings",
+  "/course",
 ];
 
 const AUTH_PATHS = ["/sign-in"];

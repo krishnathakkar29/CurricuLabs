@@ -47,7 +47,7 @@ function page() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            className="w-full px-3 py-2 border rounded text-black"
+            className="w-full px-3 py-2 border rounded text-white"
           />
         </div>
         <div>
@@ -60,7 +60,7 @@ function page() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full px-3 py-2 border rounded text-black"
+            className="w-full px-3 py-2 border rounded text-white"
           />
         </div>
         <div>
@@ -73,7 +73,7 @@ function page() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full px-3 py-2 border rounded text-black"
+            className="w-full px-3 py-2 border rounded text-white"
           />
         </div>
         <button
