@@ -1,0 +1,25 @@
+name: Build & Deploy
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build and Deploy
+        uses: actions/checkout@v3
+        env:
+          host: ${{secrets.SSH_HOST}} # IP address of the server you wish to ssh into
+          key: ${{secrets.SSH_KEY}} # Private or public key of the server
+          username: ${{ secrets.SSH_USERNAME }} # User of the server you want to ssh into
+          run: |
+            sudo su
+            echo "${{ secrets.SSH_KEY }}" > private_key && chmod 600 private_key
+            ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} '
+            cd /root/CurricuLabs
+            git pull origin main
+            pnpm install
+            pnpm run build
+            pnpm run start
+            curl localhost:3000
+            echo 'deployed successfully'
